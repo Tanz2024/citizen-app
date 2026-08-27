@@ -1,56 +1,101 @@
-# Welcome to your Expo app 👋
+# Citizen
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Citizen is an **independent, open-source civic technology prototype** that aims to make Bangladeshi government services easier to find, understand, and complete — passports, national ID, driving licences, land mutation, tax, business registration, and more, organized around what a citizen wants to *do*, not which ministry or office handles it.
 
-## Get started
+> **Citizen is not affiliated with, endorsed by, or connected to the Government of Bangladesh.** It has no real government data integration, no live NID verification, and no official partnerships. Every piece of service, fee, and document information in the app today is **sample/demo data** clearly labeled as such, meant to prototype the product experience before any real data source exists.
 
-1. Install dependencies
+Built with [Expo](https://expo.dev) (React Native + TypeScript), targeting iOS and Android from one codebase.
 
-   ```bash
-   npm install
-   ```
+---
 
-2. Start the app
+## Current status
 
-   ```bash
-   npx expo start
-   ```
+This is an early-stage prototype. What exists today:
 
-In the output, you'll find options to open the app in a
+- **Home** — search entry point, Citizen Assistant shortcut, quick actions, popular services, wallet preview, recent applications
+- **Services** — browse by category, search, full step-by-step guide for every service (requirements, fees, steps, where to apply), a sample multi-step application wizard, and a "Fee Transparency" view comparing official vs. community-reported costs
+- **Wallet** — a demo credential wallet (National ID, driving licence, birth certificate, passport, etc.) — explicitly labeled as demo/prototype credentials, not real digital IDs
+- **Activity** — application/payment history grouped by date, with status tracking
+- **Profile** — language selector (UI only — no real Bangla translation yet), privacy notice, about page, and a Low Data Mode setting
+- **Citizen Assistant** — a chat UI shell with suggested questions; **not connected to any AI backend yet** — it clearly tells the user this rather than faking a response
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Everything above runs on static, local mock data. There is no backend, no network layer, and no persistence beyond a couple of local device settings.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+---
 
-## Get a fresh project
-
-When you're ready, run:
+## Getting started
 
 ```bash
-npm run reset-project
+npm install
+npx expo start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Then either:
+- press `i` to open the iOS Simulator, or
+- press `a` to open an Android emulator, or
+- scan the QR code with **Expo Go** on a physical device.
 
-### Other setup steps
+This project currently targets **Expo SDK 54** specifically because that's what the App Store build of Expo Go supports — check `package.json` before assuming a newer SDK is safe to adopt without also verifying Expo Go compatibility.
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+Useful scripts:
 
-## Learn more
+```bash
+npx tsc --noEmit   # typecheck
+npx expo lint      # lint
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+Both should report zero errors before you open a PR.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+---
 
-## Join the community
+## Project structure
 
-Join our community of developers creating universal apps.
+```
+src/
+├── app/            # Expo Router screens (file-based routing)
+│   └── (tabs)/     # the 5 bottom-tab screens: Home, Services, Wallet, Activity, Profile
+├── components/
+│   ├── home/       # Home-screen-only pieces
+│   ├── ui/         # shared, reusable components (rows, badges, headers, icon registry…)
+│   ├── navigation/ # bottom tab bar (native + web variants)
+│   └── legacy/     # unused Expo-starter leftovers, kept for reference
+├── constants/      # design tokens: colors, spacing, radius, category tints
+├── data/           # mock data — the only place service/credential/activity content lives
+├── types/          # shared TypeScript types
+└── hooks/          # theme, color scheme, low-data-mode, etc.
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Design system: deep Bangladesh green (`#006A4E`) as the primary color, red (`#D93025`) reserved for alerts and meaningful discrepancies, warm neutral background — mostly plain, low-chrome UI in the spirit of mature government/banking apps (Estonia, Singapore's Singpass, Japan's MynaPortal) rather than a generic SaaS dashboard.
+
+---
+
+## Contributing
+
+Contributions are welcome — this is meant to be a community-built reference for what good civic UX could look like for Bangladesh, and it stays a collective, open-source effort: **no contributor can claim ownership of the project as a whole.**
+
+See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for the full guide — code conventions, trust/honesty rules for handling government service info, ownership/attribution terms, and how to submit a PR.
+
+---
+
+## Roadmap / what's not built yet
+
+Roughly in priority order:
+
+1. **Real backend & data layer** — replace `src/data/*.ts` mock arrays with an actual API. Nothing below this point makes sense until real data-fetching exists.
+2. **Offline-first caching** — service info (requirements, fees, steps) should be cached locally and remain readable with no internet connection, with a visible "Last verified [date]" timestamp (already implemented on the Service Detail UI, just not yet backed by a real cache/refresh cycle).
+3. **Pagination everywhere** — services, applications, and notifications should never be fetched in one giant request.
+4. **Low Data Mode, for real** — the toggle exists in Profile today but currently only reduces a splash animation; it should eventually also disable auto-refresh, defer non-essential network calls, and skip large media.
+5. **Citizen Assistant backend** — an actual AI integration, strictly optional. Every core flow (search, steps, fees, documents) must keep working with zero LLM involvement, and AI must gracefully fall back to the normal structured guide on poor connectivity rather than showing an error state.
+6. **Real Bangla localization** — proper i18n, not just a placeholder toggle.
+7. **Accessibility mode** — large text, high contrast, simple Bangla, voice guidance, usable on low-end/basic devices.
+8. **Conservative device support** — verified on an older, low-RAM Android emulator, not just modern iPhones. No iOS/Android-exclusive APIs without a fallback.
+9. **Assisted-access channels** — SMS, USSD, call-centre, or family-assisted flows for citizens without smartphones.
+10. **Real credential wallet** — if this ever integrates with an actual government identity system, it needs a real security/privacy review before any of the current "demo credential" UI is treated as authoritative.
+
+---
+
+## License
+
+MIT — see [`LICENSE`](./LICENSE). *(Note: the current LICENSE file still carries the original Expo template's copyright holder — update this to the project's actual copyright holder before treating it as final.)*
+
+Citizen is and remains open-source under this license. No individual or organization may claim ownership of the project as a whole, relicense it as closed-source, or present a fork as the sole official version — see [`CONTRIBUTING.md`](./CONTRIBUTING.md#ownership--attribution) for details.

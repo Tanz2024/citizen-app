@@ -8,11 +8,23 @@ import { scheduleOnRN } from 'react-native-worklets';
 const INITIAL_SCALE_FACTOR = Dimensions.get('screen').height / 90;
 const DURATION = 600;
 
-export function AnimatedSplashOverlay() {
+export function AnimatedSplashOverlay({ reduceMotion = false }: { reduceMotion?: boolean }) {
   const [animate, setAnimate] = useState(false);
   const [visible, setVisible] = useState(true);
 
   if (!visible) return null;
+
+  if (reduceMotion) {
+    return (
+      <View
+        onLayout={() => {
+          SplashScreen.hideAsync().finally(() => setVisible(false));
+        }}
+        style={styles.splashOverlay}>
+        <Image style={styles.image} source={require('@/assets/images/expo-logo.png')} />
+      </View>
+    );
+  }
 
   const splashKeyframe = new Keyframe({
     0: {
@@ -139,7 +151,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   splashOverlay: {
-    ...StyleSheet.absoluteFill,
+    ...StyleSheet.absoluteFillObject,
     backgroundColor: '#208AEF',
     alignItems: 'center',
     justifyContent: 'center',

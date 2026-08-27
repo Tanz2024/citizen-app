@@ -9,22 +9,51 @@ import { Platform } from 'react-native';
 
 export const Colors = {
   light: {
-    text: '#000000',
-    background: '#ffffff',
-    backgroundElement: '#F0F0F3',
-    backgroundSelected: '#E0E1E6',
-    textSecondary: '#60646C',
+    text: '#1D1D1F',
+    background: '#F7F8F9',
+    backgroundElement: '#FFFFFF',
+    backgroundSelected: '#E6F4EC',
+    textSecondary: '#5C6167',
+    border: '#E4E6E8',
+    primary: '#006A4E',
+    primaryText: '#FFFFFF',
+    accent: '#D93025',
+    accentSoft: '#FBE9E7',
+    success: '#006A4E',
+    successSoft: '#E6F4EC',
+    warning: '#B4690E',
+    warningSoft: '#FCEFDD',
   },
   dark: {
-    text: '#ffffff',
-    background: '#000000',
-    backgroundElement: '#212225',
-    backgroundSelected: '#2E3135',
-    textSecondary: '#B0B4BA',
+    text: '#F2F1EE',
+    background: '#121412',
+    backgroundElement: '#1C1F1D',
+    backgroundSelected: '#1E332C',
+    textSecondary: '#A7ACA9',
+    border: '#2B2E2B',
+    primary: '#3FA382',
+    primaryText: '#04140E',
+    accent: '#EF6154',
+    accentSoft: '#331A1E',
+    success: '#3FA382',
+    successSoft: '#16302A',
+    warning: '#E0A94C',
+    warningSoft: '#312512',
   },
 } as const;
 
 export type ThemeColor = keyof typeof Colors.light & keyof typeof Colors.dark;
+
+export const CategoryTints = {
+  business: '#006A4E',
+  family: '#D93025',
+  travel: '#2E6BD6',
+  transport: '#B4690E',
+  land: '#1D8A7A',
+  tax: '#C7A008',
+} as const;
+
+export type CategoryTint = keyof typeof CategoryTints;
 
 export const Fonts = Platform.select({
   ios: {
@@ -63,3 +92,10 @@ export const Spacing = {
 
 export const BottomTabInset = Platform.select({ ios: 50, android: 80 }) ?? 0;
 export const MaxContentWidth = 800;
+
+export const Radius = {
+  small: 8,
+  medium: 12,
+  large: 16,
+  pill: 999,
+} as const;
