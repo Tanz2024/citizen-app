@@ -6,6 +6,15 @@ Citizen is an **independent, open-source civic technology prototype** that aims 
 
 Built with [Expo](https://expo.dev) (React Native + TypeScript), targeting iOS and Android from one codebase.
 
+**Why this matters:** many people in Bangladesh don't know which office handles a given service, or end up paying unofficial "extra" fees simply because they don't know what the real ones are. Citizen exists to close that information gap with a single, honest, citizen-first entry point.
+
+<p align="center">
+  <img src="docs/screenshots/home.png" width="200" alt="Home screen" />
+  <img src="docs/screenshots/services.png" width="200" alt="Services screen" />
+  <img src="docs/screenshots/wallet.png" width="200" alt="Wallet screen" />
+  <img src="docs/screenshots/activity.png" width="200" alt="Activity screen" />
+</p>
+
 ---
 
 ## Current status
