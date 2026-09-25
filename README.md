@@ -2,7 +2,7 @@
 
 Citizen is an **independent, open-source civic technology prototype** that aims to make Bangladeshi government services easier to find, understand, and complete — passports, national ID, driving licences, land mutation, tax, business registration, and more, organized around what a citizen wants to *do*, not which ministry or office handles it.
 
-> **Citizen is not affiliated with, endorsed by, or connected to the Government of Bangladesh.** It has no real government data integration, no live NID verification, and no official partnerships. Every piece of service, fee, and document information in the app today is **sample/demo data** clearly labeled as such, meant to prototype the product experience before any real data source exists.
+> **Citizen is not affiliated with, endorsed by, or connected to the Government of Country.** It has no real government data integration, no live NID verification, and no official partnerships. Every piece of service, fee, and document information in the app today is **sample/demo data** clearly labeled as such, meant to prototype the product experience before any real data source exists.
 
 Built with [Expo](https://expo.dev) (React Native + TypeScript), targeting iOS and Android from one codebase.
 
